@@ -4,6 +4,7 @@
 #include <memory>
 
 #include <application/exceptions/author_already_exists_exception.hpp>
+#include <application/exceptions/author_invalid_exception.hpp>
 #include "../src/usecases/add_author_usecase.hpp"
 
 namespace
@@ -78,4 +79,16 @@ TEST(AddAuthorUsecaseTG, execute_error_when_already_existent)
     CHECK_THROWS_STDEXCEPT(
         AuthorAlreadyExistsException,
         "Author with name 'aaa already exists", usecase.execute({"aaa"}));
+}
+
+TEST(AddAuthorUsecaseTG, execute_error_when_empty_name)
+{
+    auto repo = makeRepo();
+    repo->exists_out = true;
+    repo->create_out = {"aaa"};
+    AddAuthorUsecase usecase(*repo);
+
+    CHECK_THROWS_STDEXCEPT(
+        AuthorInvalidException,
+        "Name '' is invalid", usecase.execute({""}));
 }
