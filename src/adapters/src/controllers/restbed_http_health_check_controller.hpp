@@ -23,6 +23,7 @@ public:
     RestbedHTTPHealthCheckController & operator=(
         RestbedHTTPHealthCheckController &&) = default;
 
+public:
     void health(const std::shared_ptr< restbed::Session >);
 };
 

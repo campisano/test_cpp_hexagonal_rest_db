@@ -7,6 +7,9 @@
 class AuthorInvalidException : public std::runtime_error
 {
 public:
+    virtual ~AuthorInvalidException() = default;
+
+public:
     explicit AuthorInvalidException(const std::string & _message)
         : std::runtime_error(_message)
     {

@@ -9,6 +9,7 @@ class ConfigLoader
 public:
     virtual ~ConfigLoader() = default;
 
+public:
     virtual Config load(const std::string & _file_path) = 0;
 };
 

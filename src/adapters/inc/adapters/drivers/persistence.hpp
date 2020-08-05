@@ -8,6 +8,7 @@ class Persistence
 public:
     virtual ~Persistence() = default;
 
+public:
     virtual void init(const std::string & _parameters) = 0;
 };
 

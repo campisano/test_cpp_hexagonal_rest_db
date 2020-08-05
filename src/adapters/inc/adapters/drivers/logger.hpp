@@ -8,6 +8,7 @@ class Logger
 public:
     virtual ~Logger() = default;
 
+public:
     virtual void setLoggerPath(const std::string & _path) = 0;
 };
 

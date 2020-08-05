@@ -22,6 +22,7 @@ public:
     RestbedHTTPAuthorsController & operator=(
         RestbedHTTPAuthorsController &&) = default;
 
+public:
     void add(const std::shared_ptr< restbed::Session >);
 
 private:

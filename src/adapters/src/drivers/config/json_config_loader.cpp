@@ -4,6 +4,14 @@
 #include <json.hpp>
 #include <string>
 
+JsonConfigLoader::JsonConfigLoader()
+{
+}
+
+JsonConfigLoader::~JsonConfigLoader()
+{
+}
+
 Config JsonConfigLoader::load(const std::string & _file_path)
 {
     std::ifstream config_file(_file_path);

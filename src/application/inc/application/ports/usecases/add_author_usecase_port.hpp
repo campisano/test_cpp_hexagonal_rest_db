@@ -7,6 +7,8 @@ class AddAuthorUsecasePort
 {
 public:
     virtual ~AddAuthorUsecasePort() = default;
+
+public:
     virtual AuthorDTO execute(const AuthorDTO & _author) = 0;
 };
 

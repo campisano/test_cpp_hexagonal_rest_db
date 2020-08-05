@@ -3,6 +3,14 @@
 #include <yaml-cpp/yaml.h>
 #include <string>
 
+YamlConfigLoader::YamlConfigLoader()
+{
+}
+
+YamlConfigLoader::~YamlConfigLoader()
+{
+}
+
 Config YamlConfigLoader::load(const std::string & _file_path)
 {
     YAML::Node y = YAML::LoadFile(_file_path);

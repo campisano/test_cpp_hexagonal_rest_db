@@ -8,6 +8,7 @@ class HTTPServer
 public:
     virtual ~HTTPServer() = default;
 
+public:
     virtual void start(
         const std::string & _ip,
         unsigned int _port,

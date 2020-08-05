@@ -11,6 +11,8 @@ class AuthorsRepositoryPort
 {
 public:
     virtual ~AuthorsRepositoryPort() = default;
+
+public:
     virtual AuthorDTO create(const AuthorDTO & _author) = 0;
     virtual bool exists(const std::string & _name) = 0;
     virtual std::unique_ptr<AuthorDTO> findByName(

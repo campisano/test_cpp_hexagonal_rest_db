@@ -7,6 +7,15 @@
 class YamlConfigLoader : public ConfigLoader
 {
 public:
+    explicit YamlConfigLoader();
+    YamlConfigLoader(const YamlConfigLoader &) = delete;
+    YamlConfigLoader(YamlConfigLoader &&) = default;
+    virtual ~YamlConfigLoader();
+
+    YamlConfigLoader & operator=(const YamlConfigLoader &) = delete;
+    YamlConfigLoader & operator=(YamlConfigLoader &&) = default;
+
+public:
     virtual Config load(const std::string & _file_path);
 };
 
