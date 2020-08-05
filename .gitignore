@@ -1,3 +1,5 @@
+/logs
+/build
 /src/domain/build
 /src/application/build
 /src/adapters/build
