@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 
+#include <application/exceptions/author_already_exists_exception.hpp>
 #include "../src/usecases/add_author_usecase.hpp"
 
 namespace
@@ -53,7 +54,7 @@ namespace
 
 TEST_GROUP(AddAuthorUsecaseTG) {};
 
-TEST(AddAuthorUsecaseTG, execute_with_not_existent)
+TEST(AddAuthorUsecaseTG, execute_ok_check_notexists_and_create)
 {
     auto repo = makeRepo();
     repo->exists_out = false;
@@ -67,7 +68,7 @@ TEST(AddAuthorUsecaseTG, execute_with_not_existent)
     CHECK_EQUAL(std::string("aaa"), response.name);
 }
 
-TEST(AddAuthorUsecaseTG, execute_with_already_existent)
+TEST(AddAuthorUsecaseTG, execute_error_when_already_existent)
 {
     auto repo = makeRepo();
     repo->exists_out = true;
@@ -75,6 +76,6 @@ TEST(AddAuthorUsecaseTG, execute_with_already_existent)
     AddAuthorUsecase usecase(*repo);
 
     CHECK_THROWS_STDEXCEPT(
-        std::runtime_error,
+        AuthorAlreadyExistsException,
         "Author with name 'aaa already exists", usecase.execute({"aaa"}));
 }
