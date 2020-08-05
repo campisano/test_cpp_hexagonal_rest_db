@@ -1,2 +1,5 @@
 /src/domain/build
 /src/application/build
+/lib/*/build
+/lib/*/download
+/lib/*/install
