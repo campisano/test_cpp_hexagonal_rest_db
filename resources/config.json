@@ -1,0 +1,14 @@
+{
+    "logger":{
+        "path":"logs/daily.log"
+    },
+    "persistence":{
+        "driver":"postgres",
+        "parameters":"postgresql://postgres:postgres@localhost/test_cpp_rest_db"
+    },
+    "http":{
+        "host":"127.0.0.1",
+        "port":8080,
+        "threads":10
+    }
+}
