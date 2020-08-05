@@ -108,20 +108,15 @@ std::list<AuthorDTO> PostgresqlAuthorsRepository::findByNameIn(
 
     std::stringstream params;
 
-    for (auto it = _author_names.begin(); it != _author_names.end(); ++it)
-    {
-        if(it != _author_names.begin())
-        {
-            params << ',';
-        }
-        params << '\'' << *it << '\'';
-    }
+    std::copy(
+        _author_names.begin(), _author_names.end(),
+        std::ostream_iterator<std::string>(params, "','"));
 
     auto con = m_persistence.connection();
     con->prepare(
         "PostgresqlAuthorsRepository::findByNameIn",
-        "SELECT name FROM author WHERE name IN ("
-        + params.str() + ")");
+        "SELECT name FROM author WHERE name IN ('"
+        + params.str() + "')");
 
     pqxx::work txn {*con};
     auto rows = txn.exec_prepared("PostgresqlAuthorsRepository::findByNameIn");
@@ -133,7 +128,7 @@ std::list<AuthorDTO> PostgresqlAuthorsRepository::findByNameIn(
     {
         std::stringstream msg;
         msg << "author retrieved, name: " << row["name"].c_str() << ".";
-        SpdlogLogger::error(__FILE__, msg.str());
+        SpdlogLogger::debug(__FILE__, msg.str());
 
         authors.push_back({row["name"].c_str()});
     }
