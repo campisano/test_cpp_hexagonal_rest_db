@@ -4,25 +4,25 @@
 
 TEST_GROUP(AuthorTG) {};
 
-TEST(AuthorTG, creation_with_notempty_name)
+TEST(AuthorTG, when_create_new_then_new_returns)
 {
     Author a("name");
 }
 
-TEST(AuthorTG, creation_with_empty_name)
+TEST(AuthorTG, when_create_empty_name_then_throw_exception)
 {
     CHECK_THROWS_STDEXCEPT(
         std::runtime_error, "Name '' is invalid", Author(""));
 }
 
-TEST(AuthorTG, author_get_name)
+TEST(AuthorTG, when_get_name_then_name_returns)
 {
     Author a("name");
 
     CHECK_EQUAL(std::string("name"), a.name());
 }
 
-TEST(AuthorTG, author_set_notempty_name)
+TEST(AuthorTG, when_set_notempty_name_then_set)
 {
     Author a("name");
 
@@ -32,7 +32,7 @@ TEST(AuthorTG, author_set_notempty_name)
 }
 
 
-TEST(AuthorTG, author_set_empty_name)
+TEST(AuthorTG, when_set_empty_name_then_throw_exception)
 {
     Author a("name");
 
