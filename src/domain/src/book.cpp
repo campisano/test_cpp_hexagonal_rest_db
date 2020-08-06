@@ -8,14 +8,14 @@ namespace {
     void ensureValidForCreation(
         const std::string & _isbn,
         const std::string & _title,
-        std::vector<std::unique_ptr<Author>> & _authors,
+        std::list<Author> & _authors,
         const std::string & _description);
 }
 
 Book::Book(
     const std::string & _isbn,
     const std::string & _title,
-    std::vector<std::unique_ptr<Author>> & _authors,
+    std::list<Author> & _authors,
     const std::string & _description)
 {
     ensureValidForCreation(_isbn, _title, _authors, _description);
@@ -41,7 +41,7 @@ std::list<const Author *> Book::authors() const {
     std::list<const Author *> authors;
     for(const auto & a : m_authors)
     {
-        authors.push_back(&(*a));
+        authors.push_back(&a);
     }
 
     return authors;
@@ -55,7 +55,7 @@ namespace {
     void ensureValidForCreation(
         const std::string & _isbn,
         const std::string & _title,
-        std::vector<std::unique_ptr<Author>> & _authors,
+        std::list<Author> & _authors,
         const std::string &)
     {
         std::stringstream msg;

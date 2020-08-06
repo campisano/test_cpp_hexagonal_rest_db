@@ -4,7 +4,7 @@
 
 namespace
 {
-    std::vector<std::unique_ptr<Author>> makeAuthors();
+    std::list<Author> makeAuthors();
 }
 
 TEST_GROUP(BookTG) {};
@@ -36,7 +36,7 @@ TEST(BookTG, creation_with_empty_title)
 
 TEST(BookTG, creation_with_empty_authors)
 {
-    std::vector<std::unique_ptr<Author>> authors;
+    std::list<Author> authors;
 
     CHECK_THROWS_STDEXCEPT(
         std::runtime_error,
@@ -79,11 +79,10 @@ TEST(BookTG, author_get_description)
 
 namespace
 {
-    std::vector<std::unique_ptr<Author>> makeAuthors()
+    std::list<Author> makeAuthors()
     {
-        std::vector<std::unique_ptr<Author>> authors;
-        std::unique_ptr<Author> a(new Author("a"));
-        authors.push_back(std::move(a));
+        std::list<Author> authors;
+        authors.push_back(Author("a"));
         return authors;
     }
 }

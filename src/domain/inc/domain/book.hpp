@@ -4,7 +4,6 @@
 #include <list>
 #include <memory>
 #include <string>
-#include <vector>
 
 #include <domain/author.hpp>
 
@@ -14,7 +13,7 @@ public:
     explicit Book(
         const std::string & _isbn,
         const std::string & _title,
-        std::vector<std::unique_ptr<Author>> & _authors,
+        std::list<Author> & _authors,
         const std::string & _description);
     Book(const Book &) = delete;
     Book(Book &&) = default;
@@ -32,7 +31,7 @@ public:
 private:
     std::string m_isbn;
     std::string m_title;
-    std::vector<std::unique_ptr<Author>> m_authors;
+    std::list<Author> m_authors;
     std::string m_description;
 };
 
