@@ -55,7 +55,7 @@ namespace
 
 TEST_GROUP(AddAuthorUsecaseTG) {};
 
-TEST(AddAuthorUsecaseTG, execute_ok_check_notexists_and_create)
+TEST(AddAuthorUsecaseTG, when_add_new_then_check_exists)
 {
     auto repo = makeRepo();
     repo->exists_out = false;
@@ -65,15 +65,36 @@ TEST(AddAuthorUsecaseTG, execute_ok_check_notexists_and_create)
     auto response = usecase.execute({"aaa"});
 
     CHECK_EQUAL(std::string("aaa"), repo->exists_in)
+}
+
+TEST(AddAuthorUsecaseTG, when_add_new_then_call_create)
+{
+    auto repo = makeRepo();
+    repo->exists_out = false;
+    repo->create_out = {"aaa"};
+    AddAuthorUsecase usecase(*repo);
+
+    auto response = usecase.execute({"aaa"});
+
     CHECK_EQUAL(std::string("aaa"), repo->create_in.name);
+}
+
+TEST(AddAuthorUsecaseTG, when_add_new_then_new_returns)
+{
+    auto repo = makeRepo();
+    repo->exists_out = false;
+    repo->create_out = {"aaa"};
+    AddAuthorUsecase usecase(*repo);
+
+    auto response = usecase.execute({"aaa"});
+
     CHECK_EQUAL(std::string("aaa"), response.name);
 }
 
-TEST(AddAuthorUsecaseTG, execute_error_when_already_existent)
+TEST(AddAuthorUsecaseTG, when_add_existent_then_throw_exception)
 {
     auto repo = makeRepo();
     repo->exists_out = true;
-    repo->create_out = {"aaa"};
     AddAuthorUsecase usecase(*repo);
 
     CHECK_THROWS_STDEXCEPT(
@@ -81,11 +102,10 @@ TEST(AddAuthorUsecaseTG, execute_error_when_already_existent)
         "Author with name 'aaa' already exists", usecase.execute({"aaa"}));
 }
 
-TEST(AddAuthorUsecaseTG, execute_error_when_empty_name)
+TEST(AddAuthorUsecaseTG, when_add_empty_name_then_throw_exception)
 {
     auto repo = makeRepo();
     repo->exists_out = true;
-    repo->create_out = {"aaa"};
     AddAuthorUsecase usecase(*repo);
 
     CHECK_THROWS_STDEXCEPT(
