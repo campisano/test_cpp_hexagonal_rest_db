@@ -78,7 +78,7 @@ TEST(AddAuthorUsecaseTG, execute_error_when_already_existent)
 
     CHECK_THROWS_STDEXCEPT(
         AuthorAlreadyExistsException,
-        "Author with name 'aaa already exists", usecase.execute({"aaa"}));
+        "Author with name 'aaa' already exists", usecase.execute({"aaa"}));
 }
 
 TEST(AddAuthorUsecaseTG, execute_error_when_empty_name)

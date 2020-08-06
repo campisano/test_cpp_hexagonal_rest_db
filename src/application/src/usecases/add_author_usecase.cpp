@@ -29,7 +29,7 @@ AuthorDTO AddAuthorUsecase::execute(const AuthorDTO & _author)
     {
         std::stringstream msg;
         msg << "Author with name '" << author->name()
-            << " already exists";
+            << "' already exists";
         throw AuthorAlreadyExistsException(msg.str());
     }
 
