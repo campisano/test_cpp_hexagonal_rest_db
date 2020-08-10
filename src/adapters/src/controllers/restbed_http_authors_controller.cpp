@@ -94,7 +94,7 @@ void RestbedHTTPAuthorsController::add(
                     + _exc.what());
                 setJSONResponse(
                     session, restbed::UNPROCESSABLE_ENTITY,
-                    {{"message", "An author already exist"}});
+                    {{"message", "Author already exists"}});
             }
             catch(const AuthorInvalidException & _exc)
             {
