@@ -254,7 +254,7 @@ endif
 
 .PHONY: test
 test: submakefiles
-	LD_LIBRARY_PATH=$(subst $(subst ,, ),:,$(library_folders)) $(output_folder)/debug/test/$(binary_name) -c
+	LD_LIBRARY_PATH=$(subst $(subst ,, ),:,$(library_folders)) $(output_folder)/debug/test/$(binary_name) -c -p
 
 
 
