@@ -14,7 +14,7 @@ PostgresqlAuthorsRepository::PostgresqlAuthorsRepository(
         "CREATE TABLE IF NOT EXISTS"
         " author "
         "( id   BIGSERIAL PRIMARY KEY"
-        ", name TEXT "
+        ", name TEXT NOT NULL"
         ")");
     w.exec(
         "CREATE UNIQUE INDEX IF NOT EXISTS"
@@ -29,14 +29,14 @@ PostgresqlAuthorsRepository::~PostgresqlAuthorsRepository()
 AuthorDTO PostgresqlAuthorsRepository::create(const AuthorDTO & _author)
 {
     //TODO prepare only if not already exists
+    const std::string stm_name = "PostgresqlAuthorsRepository::create";
     auto con = m_persistence.connection();
     con->prepare(
-        "PostgresqlAuthorsRepository::create",
+        stm_name,
         "INSERT INTO author (name) VALUES ($1) RETURNING id");
 
     pqxx::work txn {*con};
-    auto id = txn.exec_prepared1(
-        "PostgresqlAuthorsRepository::create", _author.name)[0].as<long>();
+    auto id = txn.exec_prepared1(stm_name, _author.name)[0].as<long>();
     txn.commit();
 
     std::stringstream msg;
@@ -48,18 +48,18 @@ AuthorDTO PostgresqlAuthorsRepository::create(const AuthorDTO & _author)
 
 bool PostgresqlAuthorsRepository::exists(const std::string & _name)
 {
+    const std::string stm_name = "PostgresqlAuthorsRepository::exists";
     auto con = m_persistence.connection();
     con->prepare(
-        "PostgresqlAuthorsRepository::exists",
+        stm_name,
         "SELECT exists (SELECT 1 FROM author WHERE name = $1)");
 
     pqxx::work txn {*con};
-    auto exists = txn.exec_prepared1(
-        "PostgresqlAuthorsRepository::exists", _name)[0].as<bool>();
+    auto exists = txn.exec_prepared1(stm_name, _name)[0].as<bool>();
     txn.commit();
 
     std::stringstream msg;
-    msg << "author exists, name: " << _name << ".";
+    msg << "author with name '" << _name << "' exists=" << exists << ".";
     SpdlogLogger::debug(__FILE__, msg.str());
 
     return exists;
@@ -68,14 +68,14 @@ bool PostgresqlAuthorsRepository::exists(const std::string & _name)
 std::unique_ptr<AuthorDTO> PostgresqlAuthorsRepository::findByName(
     const std::string & _name)
 {
+    const std::string stm_name = "PostgresqlAuthorsRepository::findByName";
     auto con = m_persistence.connection();
     con->prepare(
-        "PostgresqlAuthorsRepository::findByName",
+        stm_name,
         "SELECT id, name FROM author WHERE name = $1");
 
     pqxx::work txn {*con};
-    auto rows = txn.exec_prepared(
-        "PostgresqlAuthorsRepository::findByName", _name);
+    auto rows = txn.exec_prepared(stm_name, _name);
     txn.commit();
 
     if(rows.size() == 0)
@@ -86,8 +86,7 @@ std::unique_ptr<AuthorDTO> PostgresqlAuthorsRepository::findByName(
     if(rows.size() > 1)
     {
         throw std::runtime_error(
-            "PostgresqlAuthorsRepository::findByName error"
-            " returning more than one value");
+            stm_name + " returning more than one value");
     }
 
     std::string name = rows[0]["name"].c_str();
@@ -107,19 +106,19 @@ std::list<AuthorDTO> PostgresqlAuthorsRepository::findByNameIn(
     // https://stackoverflow.com/questions/23875183/how-to-perform-in-in-sql-query-using-pqxx-in-c-for-postgresql
 
     std::stringstream params;
-
     std::copy(
         _author_names.begin(), _author_names.end(),
         std::ostream_iterator<std::string>(params, "','"));
 
+    const std::string stm_name = "PostgresqlAuthorsRepository::findByNameIn";
     auto con = m_persistence.connection();
     con->prepare(
-        "PostgresqlAuthorsRepository::findByNameIn",
+        stm_name,
         "SELECT name FROM author WHERE name IN ('"
         + params.str() + "')");
 
     pqxx::work txn {*con};
-    auto rows = txn.exec_prepared("PostgresqlAuthorsRepository::findByNameIn");
+    auto rows = txn.exec_prepared(stm_name);
     txn.commit();
 
     std::list<AuthorDTO> authors;
