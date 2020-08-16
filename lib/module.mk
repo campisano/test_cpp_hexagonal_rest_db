@@ -1,6 +1,7 @@
 .PHONY: all
 all:
-	cmake -B build -S .
+	mkdir -p build
+	cd build && cmake ..
 	$(MAKE) -C build
 
 .PHONY: clean
