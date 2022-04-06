@@ -8,7 +8,6 @@
 -Wnon-virtual-dtor
 -Og
 -ggdb3
--g3
 -fno-omit-frame-pointer
 -Ilib/asio/install/include/
 -Ilib/cpputest/install/include/

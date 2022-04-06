@@ -1,5 +1,6 @@
 #include "testutils.hpp"
 
+#include <stdexcept>
 #include "domain/book.hpp"
 
 namespace

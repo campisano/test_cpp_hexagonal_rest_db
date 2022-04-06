@@ -1,5 +1,6 @@
 #include "testutils.hpp"
 
+#include <stdexcept>
 #include "domain/author.hpp"
 
 TEST_GROUP(AuthorTG) {};
