@@ -8,4 +8,4 @@ test_libs_to_link		:= :libCppUTest.a :libCppUTestExt.a
 base_source_paths		:= src
 test_source_paths		:= test
 
-include ../module.mk
+include ../../lib/generic_makefile/modular_makefile.mk
