@@ -14,7 +14,7 @@
 -Ilib/json/install/include/
 -Ilib/pq/install/include/
 -Ilib/pqxx/install/include/
--Ilib/restbed/install/include/
+-Ilib/httplib/install/include/
 -Ilib/spdlog/install/include/
 -Ilib/yaml/install/include/
 -Isrc/domain/inc/

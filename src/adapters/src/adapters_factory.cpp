@@ -2,10 +2,10 @@
 
 #include <sstream>
 #include <stdexcept>
-#include "controllers/restbed_http_authors_controller.hpp"
-#include "controllers/restbed_http_books_controller.hpp"
-#include "controllers/restbed_http_health_check_controller.hpp"
-#include "drivers/http/restbed_http_server.hpp"
+#include "controllers/httplib_http_authors_controller.hpp"
+#include "controllers/httplib_http_books_controller.hpp"
+#include "controllers/httplib_http_health_check_controller.hpp"
+#include "drivers/http/httplib_http_server.hpp"
 #include "drivers/logger/spdlog_logger.hpp"
 #include "drivers/persistence/postgresql_persistence.hpp"
 #include "drivers/config/json_config_loader.hpp"
@@ -68,26 +68,26 @@ std::unique_ptr<BooksRepositoryPort> AdaptersFactory::makeBooksRepository(
 
 std::unique_ptr<HTTPServer> AdaptersFactory::makeHTTPServer()
 {
-    return std::unique_ptr<HTTPServer>(new RestbedHTTPServer());
+    return std::unique_ptr<HTTPServer>(new HttplibHTTPServer());
 }
 
 std::unique_ptr<HTTPController> AdaptersFactory::makeHTTPHealthCheckController(
     HTTPServer & _server)
 {
     return std::unique_ptr<HTTPController>(
-        new RestbedHTTPHealthCheckController(_server));
+        new HttplibHTTPHealthCheckController(_server));
 }
 
 std::unique_ptr<HTTPController> AdaptersFactory::makeHTTPAuthorsController(
     AddAuthorUsecasePort & _usecase, HTTPServer & _server)
 {
     return std::unique_ptr<HTTPController>(
-        new RestbedHTTPAuthorsController(_usecase, _server));
+        new HttplibHTTPAuthorsController(_usecase, _server));
 }
 
 std::unique_ptr<HTTPController> AdaptersFactory::makeHTTPBooksController(
     AddBookUsecasePort & _usecase, HTTPServer & _server)
 {
     return std::unique_ptr<HTTPController>(
-        new RestbedHTTPBooksController(_usecase, _server));
+        new HttplibHTTPBooksController(_usecase, _server));
 }
