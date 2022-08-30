@@ -19,8 +19,8 @@ TEST(AddAuthorUsecaseTG, when_add_new_then_check_exists)
 
     auto response = usecase.execute({"aaa"});
 
-    CHECK_EQUAL(std::string("aaa"), authors_rep->exists_in)
-        }
+    CHECK_EQUAL(std::string("aaa"), authors_rep->exists_in);
+}
 
 TEST(AddAuthorUsecaseTG, when_add_new_then_call_create)
 {
