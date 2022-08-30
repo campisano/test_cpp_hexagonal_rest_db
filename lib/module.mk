@@ -6,4 +6,4 @@ all:
 
 .PHONY: clean
 clean:
-	$(MAKE) -C build clean
+	test ! -d build && true || $(MAKE) -C build clean

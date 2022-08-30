@@ -1,9 +1,9 @@
 binary_name			:= domain.so
 type				:= lib
 
-include_paths			:= inc ../../lib/cpputest/install/include
-library_paths			:= ../../lib/cpputest/install/lib
-test_libs_to_link		:= :libCppUTest.a :libCppUTestExt.a
+include_paths			:= inc
+library_paths			:=
+test_libs_to_link		:= CppUTest CppUTestExt
 
 base_source_paths		:= src
 test_source_paths		:= test
