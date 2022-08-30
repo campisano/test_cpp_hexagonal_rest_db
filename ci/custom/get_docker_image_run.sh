@@ -2,6 +2,6 @@
 
 set -o errexit -o nounset -o pipefail
 
-IMAGE="debian:stretch-slim"
+IMAGE="debian:bullseye-slim"
 
 echo "${IMAGE}"

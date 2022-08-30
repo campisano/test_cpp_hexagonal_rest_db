@@ -19,9 +19,8 @@ stages:
 CI_amd64:
   stage: integration
   variables:
-    ARCH: amd64
-    CACHE_DIR: .ci_cache_${ARCH}
-    BUILD_DIR: .ci_build_${ARCH}
+    CACHE_DIR: .ci_cache_amd64
+    BUILD_DIR: .ci_build_amd64
   image: docker:latest
   extends: .common
   only: ["branches"]
@@ -33,14 +32,13 @@ CI_amd64:
 CI_arm64v8:
   stage: integration
   variables:
-    ARCH: arm64v8
-    CACHE_DIR: .ci_cache_${ARCH}
-    BUILD_DIR: .ci_build_${ARCH}
+    CACHE_DIR: .ci_cache_arm64v8
+    BUILD_DIR: .ci_build_arm64v8
   image: docker:latest
   extends: .common
   only: ["branches"]
   script:
-    - ./ci/build_arm64v8.sh
+    - ./ci/build_crosscompile_arm64v8.sh
 
 CD:
   stage: delivery

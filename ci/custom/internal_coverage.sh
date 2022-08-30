@@ -11,10 +11,13 @@ rm -f /etc/apt/apt.conf.d/docker*
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get -qq -y update
-apt-get -qq -y install --no-install-recommends apt-utils > /dev/null
-apt-get -qq -y install --no-install-recommends libssl1.0.2 > /dev/null
-apt-get -qq -y install --no-install-recommends gcc g++ make cmake libssl1.0-dev > /dev/null
-apt-get -qq -y install --no-install-recommends wget unzip > /dev/null
+apt-get -qq -y install apt-utils > /dev/null
+apt-get -qq -y install g++ make cmake > /dev/null
+apt-get -qq -y install libspdlog1 libspdlog-dev > /dev/null
+apt-get -qq -y install libyaml-cpp0.6 libyaml-cpp-dev > /dev/null
+apt-get -qq -y install libpqxx-6.4 libpqxx-dev > /dev/null
+apt-get -qq -y install libcpputest-dev > /dev/null
+apt-get -qq -y install wget unzip > /dev/null
 
 mv -n /var/cache/apt/* ${CACHE_DIR}/var/cache/apt/
 
