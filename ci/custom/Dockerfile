@@ -17,8 +17,6 @@ RUN useradd -r -U app -d /srv/app -m
 WORKDIR /srv/app
 
 COPY ./resources ./resources
-COPY ./scripts/run.sh ./scripts/run.sh
-COPY ./$BUILD_DIR_AMD64/lib ./lib
 COPY ./$BUILD_DIR_AMD64/build/ ./
 COPY ./$BUILD_DIR_AMD64/src/domain/build ./src/domain/build
 COPY ./$BUILD_DIR_AMD64/src/application/build ./src/application/build
@@ -50,12 +48,10 @@ RUN useradd -r -U app -d /srv/app -m
 WORKDIR /srv/app
 
 COPY ./resources ./resources
-COPY ./scripts/run.sh ./scripts/run.sh
-COPY ./$BUILD_DIR_AMD64/lib ./lib
-COPY ./$BUILD_DIR_AMD64/build/ ./
-COPY ./$BUILD_DIR_AMD64/src/domain/build ./src/domain/build
-COPY ./$BUILD_DIR_AMD64/src/application/build ./src/application/build
-COPY ./$BUILD_DIR_AMD64/src/adapters/build ./src/adapters/build
+COPY ./$BUILD_DIR_ARM64V8/build/ ./
+COPY ./$BUILD_DIR_ARM64V8/src/domain/build ./src/domain/build
+COPY ./$BUILD_DIR_ARM64V8/src/application/build ./src/application/build
+COPY ./$BUILD_DIR_ARM64V8/src/adapters/build ./src/adapters/build
 
 RUN find . -type d -exec chmod 0755 {} \;
 RUN find /srv/app -type f -exec chmod a+r {} \;
@@ -69,5 +65,5 @@ ARG TARGETARCH
 FROM ${TARGETOS}-${TARGETARCH} as final
 
 USER app:app
-ENV LD_LIBRARY_PATH=src/domain/build/lib:src/application/build/lib:src/adapters/build/lib:lib/spdlog/install/lib:lib/yaml/install/lib:lib/pq/install/lib:lib/pqxx/install/lib:lib/restbed/install/library:lib/cpputest/install/lib
+ENV LD_LIBRARY_PATH=src/domain/build/lib:src/application/build/lib:src/adapters/build/lib
 CMD ["./bin/example"]
