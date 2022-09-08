@@ -1,4 +1,4 @@
-#include "testutils.hpp"
+#include "doctest.h"
 
 #include <iostream>
 #include <memory>
@@ -9,9 +9,9 @@
 #include "mocks/authors_repository_mock.hpp"
 #include "mocks/books_repository_mock.hpp"
 
-TEST_GROUP(AddBookUsecaseTG) {};
+TEST_SUITE_BEGIN("AddBookUsecaseTG");
 
-TEST(AddBookUsecaseTG, when_add_new_then_get_authors)
+TEST_CASE("when_add_new_then_get_authors")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->findByNameIn_out = { {"author1"} };
@@ -22,10 +22,10 @@ TEST(AddBookUsecaseTG, when_add_new_then_get_authors)
     auto response = usecase.execute(
         {"isbn", "title", {"author1"}, "description"});
 
-    CHECK_EQUAL(std::string("author1"), authors_rep->findByNameIn_in.front());
+    CHECK_EQ(std::string("author1"), authors_rep->findByNameIn_in.front());
 }
 
-TEST(AddBookUsecaseTG, when_add_new_then_check_exists)
+TEST_CASE("when_add_new_then_check_exists")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->findByNameIn_out = { {"author1"} };
@@ -36,10 +36,10 @@ TEST(AddBookUsecaseTG, when_add_new_then_check_exists)
     auto response = usecase.execute(
         {"isbn", "title", {"author1"}, "description"});
 
-    CHECK_EQUAL(std::string("isbn"), books_rep->exists_in);
+    CHECK_EQ(std::string("isbn"), books_rep->exists_in);
 }
 
-TEST(AddBookUsecaseTG, when_add_new_then_call_create)
+TEST_CASE("when_add_new_then_call_create")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->findByNameIn_out = { {"author1"} };
@@ -50,13 +50,13 @@ TEST(AddBookUsecaseTG, when_add_new_then_call_create)
     auto response = usecase.execute(
         {"isbn", "title", {"author1"}, "description"});
 
-    CHECK_EQUAL(std::string("isbn"), books_rep->create_in.isbn);
-    CHECK_EQUAL(std::string("title"), books_rep->create_in.title);
-    CHECK_EQUAL(std::string("author1"), books_rep->create_in.authors.front());
-    CHECK_EQUAL(std::string("description"), books_rep->create_in.description);
+    CHECK_EQ(std::string("isbn"), books_rep->create_in.isbn);
+    CHECK_EQ(std::string("title"), books_rep->create_in.title);
+    CHECK_EQ(std::string("author1"), books_rep->create_in.authors.front());
+    CHECK_EQ(std::string("description"), books_rep->create_in.description);
 }
 
-TEST(AddBookUsecaseTG, when_add_new_then_new_returns)
+TEST_CASE("when_add_new_then_new_returns")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->findByNameIn_out = { {"author1"} };
@@ -68,13 +68,13 @@ TEST(AddBookUsecaseTG, when_add_new_then_new_returns)
     auto response = usecase.execute(
         {"isbn", "title", {"author1"}, "description"});
 
-    CHECK_EQUAL(std::string("isbn"), response.isbn);
-    CHECK_EQUAL(std::string("title"), response.title);
-    CHECK_EQUAL(std::string("author1"), response.authors.front());
-    CHECK_EQUAL(std::string("description"), response.description);
+    CHECK_EQ(std::string("isbn"), response.isbn);
+    CHECK_EQ(std::string("title"), response.title);
+    CHECK_EQ(std::string("author1"), response.authors.front());
+    CHECK_EQ(std::string("description"), response.description);
 }
 
-TEST(AddBookUsecaseTG, when_add_existent_then_throw_exception)
+TEST_CASE("when_add_existent_then_throw_exception")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->findByNameIn_out = { {"author1"} };
@@ -82,13 +82,13 @@ TEST(AddBookUsecaseTG, when_add_existent_then_throw_exception)
     books_rep->exists_out = true;
     AddBookUsecase usecase(*books_rep, *authors_rep);
 
-    CHECK_THROWS_STDEXCEPT(
-        BookAlreadyExistsException,
-        "Book with isbn 'isbn' already exists", usecase.execute(
-            {"isbn", "title", {"author1"}, "description"}));
+    CHECK_THROWS_WITH_AS(
+        usecase.execute({"isbn", "title", {"author1"}, "description"}),
+        "Book with isbn 'isbn' already exists",
+        BookAlreadyExistsException);
 }
 
-TEST(AddBookUsecaseTG, when_add_empty_isbn_then_throw_exception)
+TEST_CASE("when_add_empty_isbn_then_throw_exception")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->findByNameIn_out = { {"author1"} };
@@ -96,13 +96,13 @@ TEST(AddBookUsecaseTG, when_add_empty_isbn_then_throw_exception)
     books_rep->exists_out = false;
     AddBookUsecase usecase(*books_rep, *authors_rep);
 
-    CHECK_THROWS_STDEXCEPT(
-        BookInvalidException,
-        "Isbn '' is invalid", usecase.execute(
-            {"", "title", {"author1"}, "description"}));
+    CHECK_THROWS_WITH_AS(
+        usecase.execute({"", "title", {"author1"}, "description"}),
+        "Isbn '' is invalid",
+        BookInvalidException);
 }
 
-TEST(AddBookUsecaseTG, when_add_invalid_title_then_throw_exception)
+TEST_CASE("when_add_invalid_title_then_throw_exception")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->findByNameIn_out = { {"author1"} };
@@ -110,13 +110,13 @@ TEST(AddBookUsecaseTG, when_add_invalid_title_then_throw_exception)
     books_rep->exists_out = false;
     AddBookUsecase usecase(*books_rep, *authors_rep);
 
-    CHECK_THROWS_STDEXCEPT(
-        BookInvalidException,
-        "Title '' is invalid", usecase.execute(
-            {"isbn", "", {"author1"}, "description"}));
+    CHECK_THROWS_WITH_AS(
+        usecase.execute({"isbn", "", {"author1"}, "description"}),
+        "Title '' is invalid",
+        BookInvalidException);
 }
 
-TEST(AddBookUsecaseTG, when_add_invalid_author_then_throw_exception)
+TEST_CASE("when_add_invalid_author_then_throw_exception")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->findByNameIn_out = {};
@@ -124,14 +124,13 @@ TEST(AddBookUsecaseTG, when_add_invalid_author_then_throw_exception)
     books_rep->exists_out = false;
     AddBookUsecase usecase(*books_rep, *authors_rep);
 
-    CHECK_THROWS_STDEXCEPT(
-        BookInvalidException,
+    CHECK_THROWS_WITH_AS(
+        usecase.execute({"isbn", "title", {}, "description"}),
         "Book authors are invalid, expected 1 or more authors, requested 0",
-        usecase.execute(
-            {"isbn", "title", {}, "description"}));
+        BookInvalidException);
 }
 
-TEST(AddBookUsecaseTG, when_add_unexistent_author_then_throw_exception)
+TEST_CASE("when_add_unexistent_author_then_throw_exception")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->findByNameIn_out = {};
@@ -139,9 +138,10 @@ TEST(AddBookUsecaseTG, when_add_unexistent_author_then_throw_exception)
     books_rep->exists_out = false;
     AddBookUsecase usecase(*books_rep, *authors_rep);
 
-    CHECK_THROWS_STDEXCEPT(
-        BookInvalidException,
+    CHECK_THROWS_WITH_AS(
+        usecase.execute({"isbn", "title", { "author1" }, "description"}),
         "Book authors are invalid, authors requested 1, authors found 0",
-        usecase.execute(
-            {"isbn", "title", { "author1" }, "description"}));
+        BookInvalidException);
 }
+
+TEST_SUITE_END();

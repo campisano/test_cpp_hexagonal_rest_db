@@ -1,11 +1,11 @@
 binary_name			:= application.so
 type				:= lib
 
-include_paths			:= inc ../domain/inc
+include_paths			:= inc ../domain/inc \
+                                   ../../lib/doctest/install/include
 library_paths			:= ../domain/build/lib
 libs_to_link			:=
 test_libs_to_link		:= stdc++ pthread \
-                                   CppUTest CppUTestExt \
                                    :domain.so
 
 base_source_paths		:= src src/usecases

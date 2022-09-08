@@ -2,20 +2,20 @@ cmake_minimum_required(VERSION 3.3.2)
 
 include(ExternalProject)
 
-set(NAME json)
+set(NAME doctest)
 
 externalproject_add(
     ${NAME}_external
     DOWNLOAD_DIR            ${CMAKE_CURRENT_SOURCE_DIR}/download
     DOWNLOAD_NAME           ${NAME}.tar.gz
-    URL                     https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz
-    URL_HASH                MD5=e8d56bc54621037842ee9f0aeae27746
+    URL                     https://github.com/doctest/doctest/archive/refs/tags/v2.4.9.tar.gz
+    URL_HASH                MD5=a7948b5ec1f69de6f84c7d7487aaf79b
     SOURCE_DIR              ${CMAKE_CURRENT_BINARY_DIR}/source
     BINARY_DIR              ${CMAKE_CURRENT_BINARY_DIR}/build
     INSTALL_DIR             ${CMAKE_CURRENT_SOURCE_DIR}/install
     CONFIGURE_COMMAND       ""
     BUILD_COMMAND           ""
-    INSTALL_COMMAND         ${CMAKE_COMMAND} -E copy <SOURCE_DIR>/single_include/nlohmann/json.hpp <INSTALL_DIR>/include/json.hpp
+    INSTALL_COMMAND         ${CMAKE_COMMAND} -E copy <SOURCE_DIR>/doctest/doctest.h <INSTALL_DIR>/include/doctest.h
     )
 
 externalproject_get_property(${NAME}_external INSTALL_DIR)

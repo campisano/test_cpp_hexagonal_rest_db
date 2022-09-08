@@ -16,7 +16,6 @@ apt-get -qq -y install g++ make cmake > /dev/null
 apt-get -qq -y install libspdlog1 libspdlog-dev > /dev/null
 apt-get -qq -y install libyaml-cpp0.6 libyaml-cpp-dev > /dev/null
 apt-get -qq -y install libpqxx-6.4 libpqxx-dev > /dev/null
-apt-get -qq -y install libcpputest-dev > /dev/null
 
 mv -n /var/cache/apt/* ${CACHE_DIR}/var/cache/apt/
 

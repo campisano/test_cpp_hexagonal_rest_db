@@ -17,7 +17,6 @@ apt-get -qq -y install g++-aarch64-linux-gnu make cmake  > /dev/null
 apt-get -qq -y install libspdlog1:arm64 libspdlog-dev:arm64 > /dev/null
 apt-get -qq -y install libyaml-cpp0.6:arm64 libyaml-cpp-dev:arm64 > /dev/null
 apt-get -qq -y install libpqxx-6.4:arm64 libpqxx-dev:arm64 > /dev/null
-apt-get -qq -y install libcpputest-dev:arm64 > /dev/null
 
 mv -n /var/cache/apt/* ${CACHE_DIR}/var/cache/apt/
 

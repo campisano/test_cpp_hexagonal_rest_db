@@ -1,4 +1,4 @@
-#include "testutils.hpp"
+#include "doctest.h"
 
 #include <iostream>
 #include <memory>
@@ -8,9 +8,9 @@
 #include "../src/usecases/add_author_usecase.hpp"
 #include "mocks/authors_repository_mock.hpp"
 
-TEST_GROUP(AddAuthorUsecaseTG) {};
+TEST_SUITE_BEGIN("AddAuthorUsecaseTG");
 
-TEST(AddAuthorUsecaseTG, when_add_new_then_check_exists)
+TEST_CASE("when_add_new_then_check_exists")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->exists_out = false;
@@ -19,10 +19,10 @@ TEST(AddAuthorUsecaseTG, when_add_new_then_check_exists)
 
     auto response = usecase.execute({"aaa"});
 
-    CHECK_EQUAL(std::string("aaa"), authors_rep->exists_in);
+    CHECK_EQ(std::string("aaa"), authors_rep->exists_in);
 }
 
-TEST(AddAuthorUsecaseTG, when_add_new_then_call_create)
+TEST_CASE("when_add_new_then_call_create")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->exists_out = false;
@@ -31,10 +31,10 @@ TEST(AddAuthorUsecaseTG, when_add_new_then_call_create)
 
     auto response = usecase.execute({"aaa"});
 
-    CHECK_EQUAL(std::string("aaa"), authors_rep->create_in.name);
+    CHECK_EQ(std::string("aaa"), authors_rep->create_in.name);
 }
 
-TEST(AddAuthorUsecaseTG, when_add_new_then_new_returns)
+TEST_CASE("when_add_new_then_new_returns")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->exists_out = false;
@@ -43,27 +43,25 @@ TEST(AddAuthorUsecaseTG, when_add_new_then_new_returns)
 
     auto response = usecase.execute({"aaa"});
 
-    CHECK_EQUAL(std::string("aaa"), response.name);
+    CHECK_EQ(std::string("aaa"), response.name);
 }
 
-TEST(AddAuthorUsecaseTG, when_add_existent_then_throw_exception)
+TEST_CASE("when_add_existent_then_throw_exception")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->exists_out = true;
     AddAuthorUsecase usecase(*authors_rep);
 
-    CHECK_THROWS_STDEXCEPT(
-        AuthorAlreadyExistsException,
-        "Author with name 'aaa' already exists", usecase.execute({"aaa"}));
+    CHECK_THROWS_WITH_AS(usecase.execute({"aaa"}), "Author with name 'aaa' already exists", AuthorAlreadyExistsException);
 }
 
-TEST(AddAuthorUsecaseTG, when_add_empty_name_then_throw_exception)
+TEST_CASE("when_add_empty_name_then_throw_exception")
 {
     auto authors_rep = AuthorsRepositoryMock::make();
     authors_rep->exists_out = true;
     AddAuthorUsecase usecase(*authors_rep);
 
-    CHECK_THROWS_STDEXCEPT(
-        AuthorInvalidException,
-        "Name '' is invalid", usecase.execute({""}));
+    CHECK_THROWS_WITH_AS(usecase.execute({""}), "Name '' is invalid", AuthorInvalidException);
 }
+
+TEST_SUITE_END();

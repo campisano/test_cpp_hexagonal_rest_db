@@ -7,10 +7,10 @@ set(NAME httplib)
 externalproject_add(
     ${NAME}_external
     DOWNLOAD_DIR            ${CMAKE_CURRENT_SOURCE_DIR}/download
-    DOWNLOAD_NAME           ${TARGET_NAME}.tar.gz
-    URL                     https://codeload.github.com/yhirose/cpp-httplib/tar.gz/refs/tags/v0.11.1
+    DOWNLOAD_NAME           ${NAME}.tar.gz
+    URL                     https://github.com/yhirose/cpp-httplib/archive/refs/tags/v0.11.1.tar.gz
     URL_HASH                MD5=7e38ea1da92b44379c3475fab17c9a6d
-    SOURCE_DIR              ${CMAKE_CURRENT_BINARY_DIR}/build
+    SOURCE_DIR              ${CMAKE_CURRENT_BINARY_DIR}/source
     BINARY_DIR              ${CMAKE_CURRENT_BINARY_DIR}/build
     INSTALL_DIR             ${CMAKE_CURRENT_SOURCE_DIR}/install
     CONFIGURE_COMMAND       ""

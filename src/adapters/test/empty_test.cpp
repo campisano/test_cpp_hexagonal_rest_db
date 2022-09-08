@@ -1,8 +1,10 @@
-#include "CppUTest/TestHarness.h"
+#include "doctest.h"
 
-TEST_GROUP(EmptyTestTG) {};
+TEST_SUITE_BEGIN("EmptyTestTG");
 
-TEST(EmptyTestTG, empty)
+TEST_CASE("empty")
 {
-    CHECK_EQUAL(0, 0);
+    CHECK_EQ(0, 0);
 }
+
+TEST_SUITE_END();

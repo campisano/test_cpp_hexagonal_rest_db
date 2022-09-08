@@ -1,12 +1,13 @@
 binary_name			:= example
 type				:= exec
 
-include_paths			:= src/domain/inc src/application/inc src/adapters/inc
+include_paths			:= src/domain/inc src/application/inc src/adapters/inc \
+                                   lib/doctest/install/include
 library_paths			:= src/domain/build/lib src/application/build/lib src/adapters/build/lib
 libs_to_link			:= stdc++ pthread \
                                    spdlog fmt yaml-cpp pqxx \
                                    :adapters.so :application.so :domain.so
-test_libs_to_link		:= CppUTest CppUTestExt
+test_libs_to_link		:=
 
 main_source_paths		:= src/main
 test_source_paths		:= src/test
